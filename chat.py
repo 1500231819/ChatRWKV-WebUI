@@ -344,13 +344,13 @@ def on_message(message, state, turbostats):
                 out = load_all_stat(srv, 'gen_1')
                 save_all_stat(srv, 'gen_0', out)
             except:
-                return
+                return turbostats,state,turbostats
 
         elif msg.lower() == '++':
             try:
                 out = load_all_stat(srv, 'gen_0')
             except:
-                return
+                return turbostats,state,turbostats
 
         begin = len(model_tokens)
         out_last = begin
@@ -388,7 +388,7 @@ def on_message(message, state, turbostats):
             try:
                 out = load_all_stat(srv, 'chat_pre')
             except:
-                return
+                return turbostats,state,turbostats
         else:
             out = load_all_stat(srv, 'chat')
             new = f"{user}{interface} {msg}\n\n{bot}{interface}"
