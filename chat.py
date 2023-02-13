@@ -41,7 +41,7 @@ if(_temp_mode == "cpu"):
     args.RUN_DEVICE = "cpu"
     args.FLOAT_MODE = "fp32"
 
-os.environ["RWKV_JIT_ON"] = '1' # '1' or '0'. very useful for fp32, but might be harmful for GPU fp16. please benchmark !!!
+os.environ["RWKV_JIT_ON"] = '1' # '1' or '0', please use torch 1.13+ and benchmark speed
 
 QA_PROMPT = False # True: Q & A prompt // False: User & Bot prompt
 # 中文问答设置QA_PROMPT=True（只能问答，问答效果更好，但不能闲聊） 中文聊天设置QA_PROMPT=False（可以闲聊，但需要大模型才适合闲聊）
@@ -90,8 +90,18 @@ AVOID_REPEAT = '，。：？！'
 
 ########################################################################################################
 
+os.environ["RWKV_RUN_DEVICE"] = args.RUN_DEVICE
 print(f'\nLoading ChatRWKV - {CHAT_LANG} - {args.RUN_DEVICE} - {args.FLOAT_MODE} - QA_PROMPT {QA_PROMPT}')
 import torch
+
+# please tune these (test True/False for all of them). can significantly improve speed.
+# torch._C._jit_set_profiling_executor(True)
+# torch._C._jit_set_profiling_mode(True)
+# torch._C._jit_override_can_fuse_on_cpu(True)
+# torch._C._jit_override_can_fuse_on_gpu(True)
+# torch._C._jit_set_texpr_fuser_enabled(False)
+# torch._C._jit_set_nvfuser_enabled(False)
+
 torch.backends.cudnn.benchmark = True
 torch.backends.cudnn.allow_tf32 = True
 torch.backends.cuda.matmul.allow_tf32 = True
@@ -104,7 +114,6 @@ args.head_qk = 0
 args.pre_ffn = 0
 args.grad_cp = 0
 args.my_pos_emb = 0
-os.environ["RWKV_RUN_DEVICE"] = args.RUN_DEVICE
 MODEL_NAME = args.MODEL_NAME
 
 if CHAT_LANG == 'English':
