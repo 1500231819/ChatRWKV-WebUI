@@ -18,11 +18,11 @@ print('\nPlease choose the language.')
 
 language_list = [('English','English'),('Chinese','简体中文')]
 
-for i in range(len(language_list)):
-    print(f"{i} = {language_list[i][1]}")
+#for i in range(len(language_list)):
+#    print(f"{i} = {language_list[i][1]}")
 
-CHAT_LANG = language_list[int(input("Waiting for the language ref (etc. 0): "))][0]
-
+#CHAT_LANG = language_list[int(input("Waiting for the language ref (etc. 0): "))][0]
+CHAT_LANG = 'Chinese'
 # 选择模式
 print('\nPlease choose the mode.')
 
@@ -31,8 +31,8 @@ mode_list = [('cuda','GPU'),('cpu','CPU')]
 for i in range(len(mode_list)):
     print(f"{i} = {mode_list[i][1]}")
 
-_temp_mode = mode_list[int(input("Waiting for the mode ref (etc. 0): "))][0]
-
+#_temp_mode = mode_list[int(input("Waiting for the mode ref (etc. 0): "))][0]
+_temp_mode = 'cuda'
 if(_temp_mode == "cuda"):
     args.RUN_DEVICE = "cuda"
     args.FLOAT_MODE = "fp16"
@@ -56,7 +56,8 @@ models_list = os.listdir(r'./models/')
 for i in range(len(models_list)):
     print(f"{i} = {models_list[i]}")
 
-model_num = int(input("Waiting for the model ref (etc. 0): "))
+#model_num = int(input("Waiting for the model ref (etc. 0): "))
+model_num = 0
 args.MODEL_NAME = f"./models/{os.path.splitext(models_list[model_num])[0]}"
 
 # if CHAT_LANG == 'English':
